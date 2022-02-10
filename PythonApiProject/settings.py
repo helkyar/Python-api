@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'movies',
+    'movies', 
+    'oauth2_provider',
+
 ]
 
 MIDDLEWARE = [
@@ -123,7 +125,18 @@ STATIC_URL = '/static/'
 
 # Set permisions (*)
 REST_FRAMEWORK = {
-         'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-        ]
+         'DEFAULT_AUTHENTICATION_CLASSES': (
+            'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        ),
+         'DEFAULT_PERMISSION_CLASSES': (
+            'rest_framework.permissions.IsAuthenticated'
+        )
+        
+        # PAgination of all responses of this api (not recomended)
+        # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+        # 'PAGE_SIZE0':  20
+}
+
+OAUTH2_PROVIDER = {
+        'SCOPES': {'read': 'Read scope', 'write': 'Write scope'}
 }
